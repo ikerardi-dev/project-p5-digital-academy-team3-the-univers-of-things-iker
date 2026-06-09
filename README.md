@@ -1,1 +1,1 @@
-Hello chickos
+Hello chickos! Podeis clonar este repositório.
