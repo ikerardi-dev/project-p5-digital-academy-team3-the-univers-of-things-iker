@@ -1,14 +1,9 @@
 <script setup>
-  import Gallery from "../components/Gallery.vue";
-  import Featured from "../components/Featured.vue";
 
 </script>
 
 <template>
-  <h1>Home Page</h1>
-
-  <Featured />
-  <Gallery />
+  <h1>Gallery</h1>
 </template>
 
 <style scoped>
