@@ -1,15 +1,93 @@
 <script setup>
+    import { reactive, ref } from 'vue';
+    import FilterContainer from './FilterContainer.vue';
+    import ProductCard from './ProductCard.vue';
+    import PaginationControls from './PaginationControls.vue';
+    import searchProducts from '@/services/search-products.js';
+    import filterProducts from '@/services/filter-products.js';
+    import paginateProducts from '@/services/paginate-products.js';
+    import { useProductsStore } from '@/stores/products-store';
+
+
+    const filter = ref("");
+    const searchInput = ref("");
+
+    const itemsPerPage = ref(8);
+    const pagPagesCount = ref(0);
+    const pagCurrentPage = ref(0);
+
+    const products = reactive([]);
+
+    const productsStore = useProductsStore();
+    
+    // Download products from the API
+    await productsStore.call();
+
+    // Get an Array from a Pinia store
+    products = productsStore.products;
+    
+    // Apply category filter
+    products = filterProducts(products, filter.value);
+    
+    // Apply search by name
+    products = searchProducts(products, searchInput.value);
+    
+    // Separate products to pages in a new array: [ [8 items], [8 items], [rest of items] ]
+    products = paginateProducts(products, itemsPerPage.value);
+
+    // Giving a number of product pages to pagination component
+    pagPagesCount.value = products.length;
 
 </script>
 
 <template>
-  <h1>Gallery</h1>
+    <section class="section">
+        <h1>Gallery</h1>
+
+        <!-- FILTER CONTAINER -->
+        <!-- <FilterContainer v-model="filter" /> -->
+
+
+        <!-- ITEMS GRID -->
+        <div class="products_grid">
+            <template v-for="(item, key) in products[pagCurrentPage]" :key="key">
+                <ProductCard 
+                    :id="item.mal_id"
+                    :imgUrl="item.images.jpg.image_url"
+                    :title="item.title"
+                    :description="item.synopsis"
+                    :score="item.score"
+                    :category="item.type"
+                    :genres="item.genres.map((genre) => genre.name)"
+                    :episodes="item.episodes"
+                />
+            </template>
+        </div>
+
+        <!-- PAGINATION -->
+        <v-pagination 
+            v-model="pagCurrentPage"
+            :length="pagPagesCount"
+        ></v-pagination>
+
+    </section>
 </template>
 
 <style scoped>
 /* Para usar Tailwind con @apply aqui. Cambia la dirección en otras carpetas! */
 @reference "../assets/main.css";
 
+.section {
+    @apply 
+        w-full min-h-screen bg-bg-surface p-4 flex flex-col gap-4 
+        ;
+}
 
+.products_grid {
+    @apply 
+        grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
+        gap-4
+        ;
+}
 
 </style>
