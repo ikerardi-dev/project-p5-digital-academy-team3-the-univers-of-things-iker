@@ -1,6 +1,6 @@
 
 <script setup>
-  import HomeView from './views/HomeView.vue';
+  import { RouterView } from 'vue-router';
   import Header from './components/Header.vue';
   import Footer from './components/Footer.vue';
 
@@ -11,7 +11,7 @@
 
   <h1>App</h1>
 
-  <HomeView />
+  <RouterView />
 
   <Footer />
 </template>
