@@ -42,9 +42,7 @@
       <!-- Columna 4: Newsletter -->
       <div class="footer-col">
         <h4 class="footer-col-title">Newsletter</h4>
-        <p class="footer-newsletter-desc">
-          Subscribe for the latest drops and rare collectible alerts.
-        </p>
+        <p class="footer-newsletter-desc">Subscribe for the latest drops and late anime news.</p>
         <div class="footer-newsletter-form">
           <input type="email" placeholder="Email address" class="footer-input" />
           <button class="footer-subscribe-btn">Subscribe</button>
