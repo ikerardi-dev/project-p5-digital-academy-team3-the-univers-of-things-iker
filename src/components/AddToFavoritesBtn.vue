@@ -33,7 +33,7 @@
 
 <template>
     <div 
-        @click="addToFavListener()"
+        @click="addToFavListener"
     >
         <!-- ICONO AQUI: -->
         <!-- <img src="" /> -->

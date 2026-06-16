@@ -1,6 +1,6 @@
 
 <script setup>
-  import HomeView from './views/HomeView.vue';
+  import { RouterView } from 'vue-router';
   import Header from './components/Header.vue';
   import Footer from './components/Footer.vue';
 
@@ -11,15 +11,14 @@
 
   <h1>App</h1>
 
-  <HomeView />
+  <RouterView />
 
   <Footer />
 </template>
 
-<style scoped>
+<style>
 /* Para usar Tailwind con @apply aqui. Cambia la dirección en otras carpetas! */
-@reference "./assets/main.css";
-
+/* @reference "./assets/main.css"; */
 
 
 </style>

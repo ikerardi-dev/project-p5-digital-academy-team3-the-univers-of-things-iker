@@ -1,0 +1,90 @@
+<script setup>
+    import { onMounted, reactive, ref } from 'vue';
+    import ProductCard from './ProductCard.vue';
+    import FilterControls from './FilterControls.vue';
+    import PaginationControls from './PaginationControls.vue';
+    import searchProducts from '@/services/search-products.js';
+    import filterProducts from '@/services/filter-products.js';
+    import paginateProducts from '@/services/paginate-products.js';
+    import { useProductsStore } from '@/stores/products-store';
+    import { storeToRefs } from 'pinia';
+
+    const filter = ref("Action");
+    const searchInput = ref("");
+
+    const itemsPerPage = ref(8);
+    const pagPagesCount = ref(0);
+    const pagCurrentPage = ref(0);
+
+    const productsStore = useProductsStore();
+    const { products } = storeToRefs(productsStore);
+    const { call } = productsStore;
+
+    // Download products from the API
+    onMounted( async () => {
+        await call();
+
+        // Apply category filter
+        products.value = filterProducts(products.value, filter.value);
+        
+        // Apply search by name
+        products.value = searchProducts(products.value, searchInput.value);
+        
+        // Separate products to pages in a new array: [ [8 items], [8 items], [rest of items] ]
+        products.value = paginateProducts(products.value, itemsPerPage.value);
+
+        // Giving a number of product pages to pagination component
+        pagPagesCount.value = products.length;
+    });
+    
+
+</script>
+
+<template>
+    <section class="section">
+        <h1>Gallery</h1>
+
+        <!-- FILTER CONTAINER -->
+        <FilterControls />
+
+
+        <!-- ITEMS GRID -->
+        <div class="products_grid">
+            <template v-for="(item, key) in products[pagCurrentPage]" :key="key">
+                <ProductCard 
+                    :id="item.mal_id"
+                    :imgUrl="item.images?.jpg?.image_url"
+                    :title="item.title"
+                    :description="item.synopsis"
+                    :score="item.score"
+                    :category="item.type"
+                    :genres="item.genres?.map((genre) => genre.name)"
+                    :episodes="item.episodes"
+                />
+            </template>
+        </div>
+
+        <!-- PAGINATION -->
+        <PaginationControls />
+
+    </section>
+</template>
+
+<style scoped>
+/* Para usar Tailwind con @apply aqui. Cambia la dirección en otras carpetas! */
+@reference "../assets/main.css";
+
+.section {
+    @apply 
+        w-full min-h-screen bg-bg-surface p-4 flex flex-col gap-4 
+        ;
+}
+
+.products_grid {
+    @apply 
+        grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
+        gap-8
+        ;
+}
+
+</style>
