@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import getFeatured from '../services/get-featured';
+import AddToFavoritesBtn from '../components/AddToFavoritesBtn.vue';
 
 const anime = ref(null);
 const loading = ref(true);
@@ -35,7 +36,9 @@ onMounted(async () => {
         <p v-if="anime.title_english" class="featured-anime-subtitle">{{ anime.title_english }}</p>
 
         <p class="featured-synopsis">{{ anime.synopsis }}</p>
-        <input type="button" class="favorite-anime-week" value="Add to Favorites">
+        <AddToFavoritesBtn>
+          
+        </AddToFavoritesBtn>
       </div>
     </div>
   </section>
@@ -102,6 +105,7 @@ onMounted(async () => {
 }
 
 .featured-synopsis {
+  font-family: 'Hanken Grotesk';
   @apply line-clamp-4 leading-relaxed /*font-grotesk*/
   text-[#b9cacb]
   -mr-20;
