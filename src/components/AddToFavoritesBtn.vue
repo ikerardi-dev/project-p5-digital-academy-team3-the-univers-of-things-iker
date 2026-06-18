@@ -1,5 +1,5 @@
 <script setup>
-    import { ref } from "vue";
+    import { ref, computed, onMounted } from "vue";
     import { Heart } from 'lucide-vue-next';
 
     import { useAuthStore } from "@/stores/auth-store";
@@ -7,7 +7,9 @@
     
     const authStore = useAuthStore();
     const favoritesStore = useFavoritesStore();
+   
     const { checkFav, removeFavorite, addFavorite } = favoritesStore;
+
 
     const props = defineProps({
         productId: {
@@ -26,8 +28,7 @@
 
     const buttonListener = async () => {
         
-        const userType = await authStore.userType.value;
-        console.log(`UserType: ${userType}`);
+        const userType = authStore.userType;
         
         if (!userType) {
             
@@ -38,16 +39,18 @@
             
 
 
-        } else if (userType === "user") {
+        } else if (userType === "customer") {
             if (active.value) {
-                // active.value = false;
                 await removeFavorite(props.productId);
             } else {
-                // active.value = true;
                 await addFavorite(props.productId);
             }
         }
     }
+
+    onMounted(async () => {
+        await favoritesStore.initFavorites(authStore.user?.uid);
+    });
 
 </script>
 

@@ -18,7 +18,7 @@ export const useAuthStore = defineStore('auth', () => {
   // Getters
   const isLoggedIn = computed(() => user.value ? true : false);
   const userType = computed(() => {
-    user?.value.type;
+    return user.value?.type;
   });
 
   // Actions
@@ -59,26 +59,21 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function initAuth() {
-    onAuthStateChanged(auth, (firebaseUser) => {
-      user.value = firebaseUser;
+    onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const docSnap = await getDoc(doc(db, "users", firebaseUser.uid))
+        const userData = docSnap.data();
+
+        user.value = {
+          ...firebaseUser,
+          ...userData
+        };
+      }
+
       isLoading.value = false;
     });
   }
 
   return { user, isLoading, register, login, logout, initAuth, isLoggedIn, userType};
 
-
-
-
-
-  // function login(userData) {
-  //   isLoggedIn.value = true
-  //   user.value = userData
-  // }
-
-  // function logout() {
-  //   isLoggedIn.value = false
-  //   user.value = null
-  // }
-  // return { isLoggedIn, user, login, logout }
 })

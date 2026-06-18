@@ -15,7 +15,5 @@ app.use(router)
 
 const authStore = useAuthStore();
 authStore.initAuth();
-const favoritesStore = useFavoritesStore();
-favoritesStore.initFavorites(authStore.user?.value.uid);
 
 app.mount('#app')

@@ -22,6 +22,11 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue'),
     },
     {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/RegisterView.vue'),
+    },
+    {
       path: '/user-dashboard',
       name: 'user-dashboard',
       component: () => import('../views/UserDashboardView.vue'),
@@ -41,7 +46,7 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   
   const authStore = useAuthStore();
 
