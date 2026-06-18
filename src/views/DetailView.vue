@@ -34,6 +34,15 @@ onMounted(async () => {
 </script>
 
 <template>
+  <div v-if="loading">Loading...</div>
+  
+  <div v-else-if="error" class="text-center py-12">
+    <p class="text-red-400">Something went wrong. Please try again later.</p>
+  </div>
+
+  <div v-else-if="!animeData" class="text-center py-12">
+    <p class="text-text-muted">Anime not found.</p>
+  </div>
   <div class="detail-container">
     <div class="detail-left">
       <div class="detail-image">
@@ -46,10 +55,10 @@ onMounted(async () => {
           <span class="datalog-value">{{ animeData?.type }}</span>
 
           <span class="datalog-key">Episodes</span>
-          <span class="datalog-value">{{ animeData?.episodes }}</span>
+          <span :class="animeData?.episodes === 'null' " class="datalog-value">{{ animeData?.episodes }}</span>
 
           <span class="datalog-key">Status</span>
-          <span :class="animeData?.status === 'Finished Airing' ? 'text-text-brand' : 'text-white'" class="datalog-value">{{ animeData?.status }}</span>
+          <span :class="animeData?.status === 'Finished Airing' || 'Currently Airing' ? 'text-text-brand' : 'text-white'" class="datalog-value">{{ animeData?.status }}</span>
 
           <span class="datalog-key">Aired</span>
           <span class="datalog-value">{{ airedFrom }}</span>

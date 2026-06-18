@@ -30,7 +30,7 @@ const props = defineProps([
 
             <h3 class="title">{{ title }}</h3>
 
-            <p class="description">{{ description }}</p>
+            <!-- <p class="description">{{ description }}</p> -->
 
             <div class="genres_container">
                 <template v-for="(genre, key) in genres" :key="key">
