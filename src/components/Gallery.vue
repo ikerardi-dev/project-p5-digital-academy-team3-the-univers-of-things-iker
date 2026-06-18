@@ -9,6 +9,7 @@
     import paginateProducts from '@/services/paginate-products.js';
     import { useProductsStore } from '@/stores/products-store';
     import { storeToRefs } from 'pinia';
+    import { useRouter } from 'vue-router';
 
     const filter = ref("");
     const searchInput = ref("");
@@ -66,6 +67,13 @@
         return [...result];
     });
 
+    //Giving gallery clickable parts to get to DetailView
+    const router = useRouter()
+
+    const goToDetail = (animeId) => {
+        router.push({ name: 'detail', params: { id: animeId } })
+    }
+
 </script>
 
 <template>
@@ -82,7 +90,8 @@
         <!-- ITEMS GRID -->
         <div class="products_grid">
             <template v-for="(item, key) in filteredProducts[pagCurrentPage]" :key="key">
-                <ProductCard 
+                <ProductCard class="product-card"
+                    @click="goToDetail(item.mal_id)"
                     :id="item.mal_id"
                     :imgUrl="item.images?.jpg?.large_image_url"
                     :title="item.title"
@@ -152,6 +161,14 @@
 .no_items_message {
     /* font-family: 'JetBrains Mono', monospace; */
     @apply text-center text-3xl text-text-muted;
+}
+
+.product-card {
+    @apply
+        cursor-pointer
+        hover:scale-105
+        transition-all
+        ;
 }
 
 

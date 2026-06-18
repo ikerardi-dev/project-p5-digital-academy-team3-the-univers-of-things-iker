@@ -57,6 +57,7 @@ const props = defineProps([
         bg-bg-container rounded-lg shadow-lg
         border border-border-default
         grid grid-rows-2 gap-0
+        xl:max-w-[20vw]
     ;
 
 }
