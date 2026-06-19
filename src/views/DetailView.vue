@@ -17,7 +17,7 @@ const airedFrom = computed(() => {
   return new Date(animeData.value.aired.from).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
-    day: 'numeric'
+    day: 'numeric',
   })
 })
 
@@ -86,11 +86,12 @@ const goToDetail = (animeId) => {
           <span class="datalog-key">Status</span>
           <span :class="animeData?.status === 'Finished Airing' || 'Currently Airing' ? 'text-text-brand' : 'text-white'" class="datalog-value">{{ animeData?.status }}</span>
 
-          <span class="datalog-key">Aired</span>
-          <span class="datalog-value">{{ airedFrom }}</span>
+            <span class="datalog-key">Aired</span>
+            <span class="datalog-value">{{ airedFrom }}</span>
 
-          <span class="datalog-key">Studio</span>
-          <span class="datalog-value">{{ animeData?.studios?.[0]?.name }}</span>
+            <span class="datalog-key">Studio</span>
+            <span class="datalog-value">{{ animeData?.studios?.[0]?.name }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -132,11 +133,9 @@ const goToDetail = (animeId) => {
 @reference "../assets/main.css";
 
 .detail-image {
-  @apply
-    border border-border-default
+  @apply border border-border-default
     rounded-lg overflow-hidden
-    w-full
-    ;
+    w-full;
 }
 
 h2 {
@@ -149,32 +148,24 @@ h2 {
 }
 
 .detail-data-log {
-  @apply
-    mt-10 bg-bg-container border border-border-default
+  @apply mt-10 bg-bg-container border border-border-default
     px-5 py-3
-    rounded-md
-    ;
+    rounded-md;
 }
 
 .data-log-grid {
-  @apply
-    grid grid-cols-2 gap-y-3 gap-x-2
-    mt-4
-    ;
+  @apply grid grid-cols-2 gap-y-3 gap-x-2
+    mt-4;
 }
 
 .datalog-key {
   font-family: 'Hanken Grotesk';
-  @apply
-    text-text-muted
-    ;
+  @apply text-text-muted;
 }
 
 .datalog-value {
   font-family: 'Hanken Grotesk';
-  @apply
-    text-end
-    ;
+  @apply text-end;
 }
 
 .detail-content-container {
@@ -198,30 +189,25 @@ h2 {
 
 .detail-synopsis h2 {
   font-family: 'Hanken Grotesk';
-  @apply 
-    border-l-4 border-white pl-3
+  @apply border-l-4 border-white pl-3
     mb-5
-    text-4xl
+    text-4xl;
 }
 
 .detail-synopsis p {
   font-family: 'Hanken Grotesk';
-  @apply
-    text-xl text-text-muted
+  @apply text-xl text-text-muted;
 }
 
 .details-genre {
-  @apply
-    flex flex-wrap gap-2 mt-4;
+  @apply flex flex-wrap gap-2 mt-4;
 }
 
 .synopsis-genre {
   font-family: 'Hanken Grotesk';
-  @apply  
-    px-5 py-1 rounded-xl
+  @apply px-5 py-1 rounded-xl
     border border-border-default bg-bg-input
-    text-text-muted
-    ;
+    text-text-muted;
 }
 
 .recommendations-cards {
