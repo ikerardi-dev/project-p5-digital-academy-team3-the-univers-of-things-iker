@@ -1,6 +1,7 @@
-export default async function getProducts() {
+export default async function getProducts(page = 1) {
   try {
-    const URI = 'https://api.jikan.moe/v4/anime'
+    if (typeof page !== "number") page = 1;
+    const URI = `https://api.jikan.moe/v4/anime?page=${page}`
 
     const response = await fetch(URI)
 
