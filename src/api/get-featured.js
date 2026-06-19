@@ -1,7 +1,9 @@
-export default async function getProducts(page = 1) {
+// AQUI PUEDES CAMBIAR EL ID PARA MOSTRAR OTRO ANIME (Sistema de admin en sprint 2)
+const FEATURED_ANIME_ID = 21 // Cowboy Bebop
+
+export default async function getFeatured() {
   try {
-    if (typeof page !== "number") page = 1;
-    const URI = `https://api.jikan.moe/v4/anime?page=${page}`
+    const URI = `https://api.jikan.moe/v4/anime/${FEATURED_ANIME_ID}`
 
     const response = await fetch(URI)
 
@@ -15,9 +17,7 @@ export default async function getProducts(page = 1) {
       throw new Error(`Wrong data fetched.\nData: ${JSON.stringify(fetchedData)}`)
     }
 
-    const items = fetchedData.data
-
-    return items
+    return fetchedData.data
   } catch (error) {
     console.log(`ERROR: ${error.message}`)
     return null
