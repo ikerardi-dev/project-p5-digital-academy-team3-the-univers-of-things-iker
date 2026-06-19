@@ -133,4 +133,19 @@ const props = defineProps([
     ;
 }
 
+.container-compact {
+    @apply
+        max-w-[160px] max-h-[220px];
+}
+
+.container-compact .content_container {
+    @apply
+        p-2 gap-1;
+}
+
+.container-compact .title {
+    @apply
+        text-sm line-clamp-2;
+}
+
 </style>

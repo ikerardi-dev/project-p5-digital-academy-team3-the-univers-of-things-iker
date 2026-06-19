@@ -91,7 +91,6 @@ const goToDetail = (animeId) => {
 
             <span class="datalog-key">Studio</span>
             <span class="datalog-value">{{ animeData?.studios?.[0]?.name }}</span>
-          </div>
         </div>
       </div>
     </div>
@@ -126,6 +125,7 @@ const goToDetail = (animeId) => {
       </div>
     </div>
   </div>
+  
 </template>
 
 <style scoped>
@@ -144,11 +144,18 @@ h2 {
 }
 
 .detail-container {
-  @apply flex gap-8 p-8 pl-5;
+  @apply flex flex-col lg:flex-row gap-8 p-4 lg:p-8 lg:pl-5
+  ;
+}
+
+.detail-left {
+  @apply
+    w-full
+    lg:w-1/3 shrink-0;
 }
 
 .detail-data-log {
-  @apply mt-10 bg-bg-container border border-border-default
+  @apply mt-6 lg:mt-10 bg-bg-container border border-border-default
     px-5 py-3
     rounded-md;
 }
@@ -171,14 +178,17 @@ h2 {
 .detail-content-container {
   @apply
     flex flex-col gap-8
-    w-2/3
+    w-full
+    lg:w-2/3;
     ;
 }
 
 .detail-content {
   @apply
     bg-bg-container border border-border-default rounded-lg
-    p-20
+    p-6
+    lg:p-20;
+
 }
 
 .detail-recommendations {
@@ -189,14 +199,16 @@ h2 {
 
 .detail-synopsis h2 {
   font-family: 'Hanken Grotesk';
-  @apply border-l-4 border-white pl-3
+  @apply
+    border-l-4 border-white pl-3
     mb-5
-    text-4xl;
+    text-2xl
+    lg:text-4xl;
 }
 
 .detail-synopsis p {
   font-family: 'Hanken Grotesk';
-  @apply text-xl text-text-muted;
+  @apply text-base lg:text-xl text-text-muted;
 }
 
 .details-genre {
@@ -210,9 +222,16 @@ h2 {
     text-text-muted;
 }
 
-.recommendations-cards {
+.recommendations-cards .container {
   @apply
-    flex
+    max-h-[400px] w-full;
+}
+
+.recommendations-cards {
+   @apply grid grid-cols-1
+   sm:grid-cols-2
+   lg:grid-cols-3
+   gap-4;
 }
 
 </style>
