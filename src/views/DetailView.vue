@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import getAnimeById from '../services/product-by-id.js'
+import getAnimeById from '../api/product-by-id.js'
 
 const route = useRoute()
 const animeData = ref(null)

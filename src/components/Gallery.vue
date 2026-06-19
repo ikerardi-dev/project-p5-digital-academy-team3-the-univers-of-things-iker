@@ -14,12 +14,12 @@
     const filter = ref("");
     const searchInput = ref("");
 
-    const itemsPerPage = ref(8);
+    const itemsPerPage = ref(16);
     const pagCurrentPage = ref(0);
 
     const productsStore = useProductsStore();
     const { products } = storeToRefs(productsStore);
-    const { call } = productsStore;
+    const { call, callMore } = productsStore;
 
     const noItemsMessage = ref("No items found")
 
@@ -27,6 +27,7 @@
     onMounted( async () => {
         noItemsMessage.value = "Loading...";
         await call();
+        callMore(200); 
         noItemsMessage.value = "No items found";
     });
 

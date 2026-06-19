@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import getFeatured from '../services/get-featured';
+import getFeatured from '../api/get-featured';
 import AddToFavoritesBtn from '../components/AddToFavoritesBtn.vue';
 
 const anime = ref(null);

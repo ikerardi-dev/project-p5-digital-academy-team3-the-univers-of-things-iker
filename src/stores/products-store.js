@@ -12,8 +12,26 @@ export const useProductsStore = defineStore('products', () => {
   
   // Actions
   async function call() {
-    products.value = await getProducts();
+    products.value = await getProducts(1);
   }
 
-  return { products, call }
+  async function callMore(totalProducts = 200) {
+    // Helper for waiting between requests
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
+    const pagesCount = Math.ceil(totalProducts / 25) - 1;
+
+
+    for (let i = 1; i <= pagesCount; i++) {
+      products.value = [...products.value, ...(await getProducts(i + 1))];
+      console.log(`${i} of ${pagesCount} added`);
+      await wait(700)
+    }
+
+
+  }
+
+  return { products, call, callMore }
 })
