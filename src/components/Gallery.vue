@@ -19,7 +19,7 @@
 
     const productsStore = useProductsStore();
     const { products } = storeToRefs(productsStore);
-    const { call } = productsStore;
+    const { call, callMore } = productsStore;
 
     const noItemsMessage = ref("No items found")
 
@@ -27,6 +27,7 @@
     onMounted( async () => {
         noItemsMessage.value = "Loading...";
         await call();
+        callMore(200); 
         noItemsMessage.value = "No items found";
     });
 
