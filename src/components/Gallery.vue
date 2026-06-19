@@ -72,6 +72,8 @@
     const router = useRouter()
 
     const goToDetail = (animeId) => {
+        console.log('Gallery click, navigating to:', animeId);
+        
         router.push({ name: 'detail', params: { id: animeId } })
     }
 

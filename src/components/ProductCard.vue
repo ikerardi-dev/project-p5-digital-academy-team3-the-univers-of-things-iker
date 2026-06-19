@@ -20,7 +20,7 @@ const props = defineProps([
                 <Star :size="12" fill="currentColor" :strokeWidth="2" /> {{ score }}
             </div>
 
-            <AddToFavoritesBtn size="sm" :productId="id"/>
+            <AddToFavoritesBtn size="sm" :productId="id" @click.stop/>
         </div>
 
         
@@ -28,7 +28,7 @@ const props = defineProps([
 
             <h3 class="title">{{ title }}</h3>
 
-            <p class="description">{{ description }}</p>
+            <!-- <p class="description">{{ description }}</p> -->
 
             <div class="genres_container">
                 <template v-for="(genre, key) in genres" :key="key">
@@ -131,6 +131,21 @@ const props = defineProps([
     @apply 
         text-text-special
     ;
+}
+
+.container-compact {
+    @apply
+        max-w-[160px] max-h-[220px];
+}
+
+.container-compact .content_container {
+    @apply
+        p-2 gap-1;
+}
+
+.container-compact .title {
+    @apply
+        text-sm line-clamp-2;
 }
 
 </style>
