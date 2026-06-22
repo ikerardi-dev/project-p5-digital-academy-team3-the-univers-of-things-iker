@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import getFeatured from '../services/get-featured';
+import getFeatured from '../api/get-featured';
 import AddToFavoritesBtn from '../components/AddToFavoritesBtn.vue';
+import { Sparkles } from 'lucide-vue-next';
 
 const anime = ref(null);
 const loading = ref(true);
@@ -31,6 +32,7 @@ onMounted(async () => {
       <div class="featured-overlay"></div>
 
       <div class="featured-info">
+        <!-- <Sparkles /> -->
         <label class="featured-anime-badge"for="">Anime de la semana</label>
         <h3 class="featured-anime-title">{{ anime.title }}</h3>
         <p v-if="anime.title_english" class="featured-anime-subtitle">{{ anime.title_english }}</p>

@@ -14,12 +14,12 @@
     const filter = ref("");
     const searchInput = ref("");
 
-    const itemsPerPage = ref(8);
+    const itemsPerPage = ref(16);
     const pagCurrentPage = ref(0);
 
     const productsStore = useProductsStore();
     const { products } = storeToRefs(productsStore);
-    const { call } = productsStore;
+    const { call, callMore } = productsStore;
 
     const noItemsMessage = ref("No items found")
 
@@ -27,6 +27,7 @@
     onMounted( async () => {
         noItemsMessage.value = "Loading...";
         await call();
+        callMore(500); 
         noItemsMessage.value = "No items found";
     });
 
@@ -63,6 +64,16 @@
                 (genre) => result.add(genre.name)
             )
         )
+        
+        const toRemove = new Set([
+            "Gourmet", "Award Winning",
+            "Ecchi", "Boys Love", 
+            "Avant Garde"
+        ])
+
+        result = new Set(
+            [...result].filter((item) => !toRemove.has(item))
+        )
 
         return [...result];
     });
@@ -71,6 +82,8 @@
     const router = useRouter()
 
     const goToDetail = (animeId) => {
+        console.log('Gallery click, navigating to:', animeId);
+        
         router.push({ name: 'detail', params: { id: animeId } })
     }
 
