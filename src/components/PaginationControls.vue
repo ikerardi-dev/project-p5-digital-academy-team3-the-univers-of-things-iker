@@ -8,6 +8,32 @@ const props = defineProps([
     "totalPages"
 ])
 
+const visiblePages = computed(() => {
+    const total = props.totalPages;
+    const current = model.value;
+    const pages = [];
+
+    if (total <= 7) {
+        return Array.from({ length: total }, (_, i) => i);
+    }
+
+    pages.push(0);
+
+    if (current > 3) pages.push(null);
+
+    const start = Math.max(1, current - 1);
+    const end = Math.min(total - 2, current + 1);
+    for (let i = start; i <= end; i++) pages.push(i);
+
+    if (current < total - 4) pages.push(null);
+
+    pages.push(total - 1);
+
+    return pages;
+
+});
+
+
 const arrowLeftDisabled = computed(() => {
     return model.value == 0; 
 })
@@ -50,13 +76,21 @@ function nextPage () {
             </div>
         </template>
 
-        <template v-for="n in totalPages" :key="n">
+        <template v-for="(page, index) in visiblePages" :key="index">
             <div 
-                class="pag_page"
-                :class="{'active': model == n - 1}"
-                @click="model = n - 1"
+                v-if="page === null" 
+                class="pag_dots"
             >
-                {{ n }}
+                ...
+            </div>
+            
+            <div 
+                v-else
+                class="pag_page"
+                :class="{'active': model == page}"
+                @click="model = page"
+            >
+                {{ page  + 1 }}
             </div>
         </template>
 
@@ -117,6 +151,12 @@ function nextPage () {
 .disabled {
     @apply 
         opacity-25 hover:border-border-default hover:text-text-default
+    ;
+}
+
+.pag_dots {
+    @apply 
+        px-2 flex items-center text-text-muted select-none
     ;
 }
 
