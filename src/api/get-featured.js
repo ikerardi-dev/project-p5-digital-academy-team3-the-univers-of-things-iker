@@ -1,7 +1,7 @@
 // AQUI PUEDES CAMBIAR EL ID PARA MOSTRAR OTRO ANIME (Sistema de admin en sprint 2)
 import sleep from "@/services/utils/sleep";
 
-const FEATURED_ANIME_ID = 21 // Cowboy Bebop
+const FEATURED_ANIME_ID = 22 // Cowboy Bebop
 
 export default async function getFeatured() {
   try {
