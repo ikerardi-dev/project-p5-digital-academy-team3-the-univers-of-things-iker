@@ -107,7 +107,7 @@
                     @click="goToDetail(item.mal_id)"
                     :id="item.mal_id"
                     :imgUrl="item.images?.jpg?.large_image_url"
-                    :title="item.title"
+                    :title="item.title_english ? item.title_english : item.title"
                     :description="item.synopsis"
                     :score="item.score"
                     :category="item.type"

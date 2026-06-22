@@ -34,7 +34,7 @@ onMounted(async () => {
       <div class="featured-info">
         <!-- <Sparkles /> -->
         <label class="featured-anime-badge"for="">Anime de la semana</label>
-        <h3 class="featured-anime-title">{{ anime.title }}</h3>
+        <h3 class="featured-anime-title">{{ anime.title_english ? anime.title_english : anime.title }}</h3>
         <p v-if="anime.title_english" class="featured-anime-subtitle">{{ anime.title_english }}</p>
 
         <p class="featured-synopsis">{{ anime.synopsis }}</p>
