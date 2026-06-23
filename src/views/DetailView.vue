@@ -96,8 +96,10 @@ const goToDetail = (animeId) => {
   <div v-else class="detail-container">
     <div class="detail-left">
       <div class="detail-image">
-        <h2>{{ animeData.title_english ? animeData.title_english : animeData.title }}</h2>
         <img :src="animeData?.images?.jpg?.large_image_url" :alt="animeData?.title" class="w-full h-full object-cover"/>
+        <div class="favorites-btn">
+            <AddToFavoritesBtn size="sm" :productId="animeData?.mal_id" @click.stop />
+          </div>
       </div>
       <div class="detail-data-log">
         <h2>Data Log</h2>
@@ -163,12 +165,8 @@ const goToDetail = (animeId) => {
 .detail-image {
   @apply border border-border-default
     rounded-lg overflow-hidden
-    w-full;
-}
-
-.detail-image h2 {
-  @apply
-    absolute ml-10 mt-5
+    w-full
+    relative;
 }
 
 h2 {
@@ -253,6 +251,11 @@ h2 {
   @apply px-5 py-1 rounded-xl
     border border-border-default bg-bg-input
     text-text-muted;
+}
+
+.favorites-btn {
+  @apply
+    mt-5
 }
 
 .recommendations-cards :deep(.container) {
