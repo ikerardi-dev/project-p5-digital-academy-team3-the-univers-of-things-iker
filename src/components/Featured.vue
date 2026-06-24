@@ -33,12 +33,11 @@ onMounted(async () => {
 
     <div v-else-if="anime" class="featured-card"
     :style="{ backgroundImage: `url(${anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url})` }">
-      
       <div class="featured-overlay"></div>
 
       <div class="featured-info">
         <!-- <Sparkles /> -->
-        <label class="featured-anime-badge"for="">Anime de la semana</label>
+        <label class="featured-anime-badge"for="">Anime of the week</label>
         <h3 class="featured-anime-title">{{ anime.title_english ? anime.title_english : anime.title }}</h3>
         <p v-if="anime.title_english" class="featured-anime-subtitle">{{ anime.title_english }}</p>
 
