@@ -4,11 +4,12 @@ import { Star } from 'lucide-vue-next';
 import AddToFavoritesBtn from './AddToFavoritesBtn.vue';
 import ChangeFeaturedBtn from './ChangeFeaturedBtn.vue';
 import { useAuthStore } from '@/stores/auth-store.js';
+import { useScoreStore } from '@/stores/score-store.js';
 import { storeToRefs } from 'pinia';
 
 const props = defineProps([
     "id", "imgUrl", "title",
-    "description", "score",
+    "description", "score", "scoredBy",
     "category", "genres",
     "episodes"
 ])
@@ -31,13 +32,22 @@ const genresEdited = computed(() => {
     return [...result];
 })
 
+const combinedScore = ref(null);
+const { calculateScore } = useScoreStore();
 
-onMounted(() => {
+
+onMounted(async () => {
     const authStore = useAuthStore();
     const {userType} = storeToRefs(authStore);
     if (userType.value == "admin") {
         isAdmin.value = true;
     }
+
+    combinedScore.value = await calculateScore(
+        props.id,
+        props.score,
+        props.scoredBy
+    )
 });
 
 </script>
@@ -48,7 +58,7 @@ onMounted(() => {
         <div class="image_container">
             <img class="image" :src="imgUrl" :alt="title"/>
             <div class="score">
-                <Star :size="12" fill="currentColor" :strokeWidth="2" /> {{ score }}
+                <Star :size="12" fill="currentColor" :strokeWidth="2" /> {{ combinedScore }}
             </div>
 
             <template v-if="isAdmin">

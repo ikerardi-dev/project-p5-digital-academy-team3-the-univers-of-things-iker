@@ -6,8 +6,19 @@
 
   import { storeToRefs } from 'pinia'
   import { useAuthStore } from './stores/auth-store.js';
+  import { onMounted } from 'vue';
+  import { useProductsStore } from './stores/products-store.js';
 
   const { isLoading } = storeToRefs(useAuthStore());
+
+  const {call, callMore} = useProductsStore();
+
+  onMounted(async () => {
+    console.log("!!! APP ON MOUNTED !!!");
+    
+    await call();
+    callMore(500);
+  });
 
 </script>
 

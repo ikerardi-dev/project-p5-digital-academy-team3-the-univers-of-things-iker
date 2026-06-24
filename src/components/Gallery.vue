@@ -21,15 +21,14 @@
     const { products } = storeToRefs(productsStore);
     const { call, callMore } = productsStore;
 
-    const noItemsMessage = ref("No items found")
+    const noItemsMessage = computed( () => {
+        if (!products?.value) {
+            return "Loading...";
+        } else {
+            return "No items found";
+        }
 
-    // Download products from the API
-    onMounted( async () => {
-        noItemsMessage.value = "Loading...";
-        await call();
-        callMore(500); 
-        noItemsMessage.value = "No items found";
-    });
+    })
 
     const filteredProducts = computed(() => {
         let result = products.value;
@@ -108,6 +107,7 @@
                     :title="item.title_english ? item.title_english : item.title"
                     :description="item.synopsis"
                     :score="item.score"
+                    :scoredBy="item.scored_by"
                     :category="item.type"
                     :genres="item.genres?.map((genre) => genre.name)"
                     :episodes="item.episodes"

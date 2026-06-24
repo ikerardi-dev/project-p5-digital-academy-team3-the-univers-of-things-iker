@@ -1,34 +1,47 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
 import { db } from "@/firebase";
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, getDoc, arrayUnion, setDoc } from "firebase/firestore";
 
 export const useScoreStore = defineStore('score', () => {
-    // State
-    const userScores = ref([]);
-    const scores = ref([]);
-
-
-    // Getters
-
+    
     // Actions
-    function calculateScore(id, apiScore, scoredBy) {
-        const curUserScore = userScores.find((item) => item.id == id);
+    async function calculateScore (id, apiScore, scoredBy) {
+        const docRef = doc(db, "scores", String(id));
+        const docSnap = await getDoc(docRef);
+        const itemUserScores = docSnap.data()?.scores;
         
+        if (!docSnap.exists() || !itemUserScores) return apiScore;
+
+        const scoredByTotal = itemUserScores.length + scoredBy;
+
+        const scoresSum = itemUserScores.reduce(
+            (acc, item) => {
+                return acc + item;
+            }, 
+            apiScore * scoredBy
+        );
+
+        const combinedScore = scoresSum / scoredByTotal;
+        
+        const result = Math.trunc(combinedScore * 100) / 100;
+
+        return result;
     }
 
-    function getScore(id) {
-        return 
-    } 
+    async function addScore (id, scoreVAlue) {
+        if (!id || !scoreVAlue) return
+        
+        scoreVAlue = Number(scoreVAlue);
 
-
-    async function initScores () {
-        const docSnap = await getDoc(doc(db, 'scores', 'base'));
-        userScores.value = docSnap.data().data;
-        console.log(JSON.stringify(userScores.value));
+        const docRef = doc(db, "scores", String(id));
+        await setDoc(docRef,
+            { scores: arrayUnion(scoreVAlue)},
+            { merge: true }
+        )
     }
     
-    return {initScores}
+    return {calculateScore, addScore}
 
 });
 

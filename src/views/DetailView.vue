@@ -5,6 +5,7 @@ import getAnimeById from '../api/product-by-id.js';
 import ProductCard from '../components/ProductCard.vue';
 import getAnimeByGenre from '../api/product-by-genre.js';
 import AddToFavoritesBtn from '../components/AddToFavoritesBtn.vue';
+import ScoreChoose from '@/components/ScoreChoose.vue';
 
 
 const route = useRoute()
@@ -12,6 +13,8 @@ const animeData = ref(null)
 const loading = ref(false)
 const error = ref(null)
 const router = useRouter()
+
+const animeId = ref(route.params?.id);
 
 const airedFrom = computed(() => {
   if (!animeData.value?.aired?.from) return null
@@ -98,11 +101,12 @@ const goToDetail = (animeId) => {
       <div class="detail-image">
         <img :src="animeData?.images?.jpg?.large_image_url" :alt="animeData?.title" class="w-full h-full object-cover"/>
         <div class="favorites-btn">
-            <AddToFavoritesBtn size="sm" :productId="animeData?.mal_id" @click.stop />
+            <AddToFavoritesBtn size="sm_detail" :productId="animeData?.mal_id" @click.stop />
           </div>
       </div>
       <div class="detail-data-log">
         <h2>Data Log</h2>
+        <ScoreChoose :id="animeId" />
         <div class="data-log-grid">
           <span class="datalog-key">Title</span>
           <span class="datalog-value">{{ animeData.title_english ? animeData.title_english : animeData.title }}</span>
