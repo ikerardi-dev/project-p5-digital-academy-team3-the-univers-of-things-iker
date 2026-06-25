@@ -59,7 +59,8 @@
         class="popup_message"
         :class="
             showMessage ? 'active' : '', 
-            !size ? 'popup_for_lg' : '' 
+            !size ? 'popup_for_lg' : '',
+            size == 'sm_detail' ? 'popup_for_detail' : ''
         "    
         @click="popupClose" 
         @click.stop
@@ -79,7 +80,7 @@
             </RouterLink>
         </span>
     </div>
-    <template v-if="size && size == 'sm'">
+    <template v-if="size && (size == 'sm' || size == 'sm_detail')">
         <div 
             @click.stop="buttonListener"
             class="favorite-button-sm"
@@ -163,6 +164,12 @@
 .popup_for_lg {
     @apply 
         top-32 left-4
+    ;
+}
+
+.popup_for_detail {
+    @apply 
+        top-16 left-6
     ;
 }
 
