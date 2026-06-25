@@ -150,6 +150,7 @@ const goToDetail = (animeId) => {
           :imgUrl="item.images?.jpg?.large_image_url"
           :title="item.title"
           :score="item.score"
+          :scoredBy="item.score_by"
           :category="item.type"
           :genres="item.genres?.map(g => g.name)"
           :episodes="item.episodes"
