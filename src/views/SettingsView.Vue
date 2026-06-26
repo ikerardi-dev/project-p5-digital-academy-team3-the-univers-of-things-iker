@@ -20,7 +20,12 @@ const actualAvatarURL = computed(() => {
     return 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus';
   }
 })
-const { updateAvatar, updateFullName } = authStore;
+const { 
+  updateAvatar, 
+  updateFullName, 
+  changePassword,
+  deleteAccount
+} = authStore;
 const avatarError = ref(false);
 const newFullName = ref(fullName.value)
 
@@ -62,6 +67,7 @@ const newPassword = ref('')
 const confirmPassword = ref('')
 const showCurrentPassword = ref(false)
 const showNewPassword = ref(false)
+const showDeletingPassword = ref(false)
 const passwordMessage = ref('')
 const passwordError = ref('')
 const isSavingPassword = ref(false)
@@ -74,7 +80,11 @@ function toggleNewPasswordVisibility() {
   showNewPassword.value = !showNewPassword.value
 }
 
-async function changePassword() {
+function toggleDeletingPasswordVisibility() {
+  showDeletingPassword.value = !showDeletingPassword.value
+}
+
+async function changePasswordHandler() {
   passwordMessage.value = ''
   passwordError.value = ''
 
@@ -86,8 +96,8 @@ async function changePassword() {
   isSavingPassword.value = true
 
   try {
-    // TODO: aquí iría la llamada real, ej:
-    // await authStore.changePassword(currentPassword.value, newPassword.value)
+    await changePassword(currentPassword.value, newPassword.value);
+    
     passwordMessage.value = 'Contraseña actualizada correctamente.'
     currentPassword.value = ''
     newPassword.value = ''
@@ -103,6 +113,7 @@ async function changePassword() {
 // --- Eliminar cuenta ---
 const isDeleteModalOpen = ref(false)
 const deleteConfirmText = ref('')
+const deletePassword = ref('')
 const deleteError = ref('')
 const isDeletingAccount = ref(false)
 
@@ -122,12 +133,17 @@ async function confirmDeleteAccount() {
     return
   }
 
+  if (!deletePassword.value || deletePassword.value == "") {
+    deleteError.value = 'Enter your actual password'
+    return
+  }
+
   isDeletingAccount.value = true
   deleteError.value = ''
 
   try {
-    // TODO: aquí iría la llamada real, ej:
-    // await authStore.deleteAccount()
+    await deleteAccount(deletePassword.value)
+    
     await authStore.logout()
     router.push('/login')
   } catch (error) {
@@ -263,7 +279,7 @@ async function confirmDeleteAccount() {
           type="button"
           class="settings-btn-primary"
           :disabled="isSavingPassword"
-          @click="changePassword"
+          @click="changePasswordHandler"
         >
           {{ isSavingPassword ? 'Actualizando...' : 'Actualizar contraseña' }}
         </button>
@@ -298,6 +314,26 @@ async function confirmDeleteAccount() {
           placeholder="ELIMINAR"
           class="settings-input"
         />
+
+        <p class="settings-modal-text">
+          Your actual password:
+        </p>
+        <div class="settings-input-wrap">
+          <input
+            v-model="deletePassword"
+            :type="showDeletingPassword ? 'text' : 'password'"
+            placeholder="••••••••"
+            class="settings-input settings-input-icon-pad"
+          />
+          <button
+            type="button"
+            class="settings-input-icon settings-toggle-password"
+            :aria-label="showDeletingPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            @click="toggleDeletingPasswordVisibility"
+          >
+            {{ showDeletingPassword ? '🙈' : '👁' }}
+          </button>
+        </div>
 
         <p v-if="deleteError" class="settings-error">{{ deleteError }}</p>
 

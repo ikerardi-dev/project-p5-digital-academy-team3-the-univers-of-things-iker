@@ -4,10 +4,12 @@ import { auth, db } from '@/firebase'
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
+  signOut, onAuthStateChanged,
+  EmailAuthProvider, updatePassword,
+  reauthenticateWithCredential,
+  deleteUser
 } from 'firebase/auth'
-import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore'
 import uploadAvatar from '@/api/upload-avatar'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -35,7 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
       email: email,
       type: 'customer',
       fullName: fullname,
-      avatar: '',
+      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus',
       favorites: [],
       blackListed: false,
     })
@@ -115,10 +117,37 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
+  async function changePassword(currentPassword, newPassword) {
+    const curUser = auth.currentUser;
+    
+    // Reauthentificate again
+    const credential = EmailAuthProvider.credential(curUser.email, currentPassword);
+    await reauthenticateWithCredential(curUser, credential);
+
+    await updatePassword(curUser, newPassword)
+  }
+
+  async function deleteAccount(currentPassword) {
+    const curUser = auth.currentUser;
+
+    // Reauthentificate again
+    const credential = EmailAuthProvider.credential(curUser.email, currentPassword);
+    await reauthenticateWithCredential(curUser, credential);
+
+    // Deleting user data from Firestore
+    await deleteDoc(doc(db, "users", curUser.uid));
+
+    // Deleting data from Firebase Authentifciation
+    await deleteUser(curUser)
+  }
+
+
+
   return {
     user, isLoading, avatarURL, fullName, 
     login, logout, initAuth, register,
     isLoggedIn, userType, 
-    updateAvatar, updateFullName
+    updateAvatar, updateFullName,
+    changePassword, deleteAccount
   }
 })

@@ -19,7 +19,6 @@
 
     const productsStore = useProductsStore();
     const { products } = storeToRefs(productsStore);
-    const { call, callMore } = productsStore;
 
     const noItemsMessage = computed( () => {
         if (!products?.value) {
@@ -33,7 +32,7 @@
     const filteredProducts = computed(() => {
         let result = products.value;
 
-        if (!result.length) {
+        if (!result?.length) {
             return result;
         };
 
@@ -53,12 +52,19 @@
     });
 
     // Giving a number of product pages to pagination component
-    const pagPagesCount = computed(() => filteredProducts.value.length);
+    const pagPagesCount = computed(() => {
+        if (filteredProducts.value) {
+            return filteredProducts.value.length
+        } else {
+            return 0;
+        }
+
+    });
 
     const filterList = computed(() => {
         let result = new Set([]);
 
-        products.value.forEach(
+        products.value?.forEach(
             (item) => item.genres?.map(
                 (genre) => result.add(genre.name)
             )
@@ -98,7 +104,7 @@
         <h1>Animes</h1>
         
         <!-- ITEMS GRID -->
-        <div class="products_grid">
+        <div v-if="filteredProducts" class="products_grid">
             <template v-for="(item, key) in filteredProducts[pagCurrentPage]" :key="key">
                 <ProductCard class="product-card"
                     @click="goToDetail(item.mal_id)"
@@ -117,7 +123,7 @@
 
         <span 
             class="no_items_message" 
-            :class="!filteredProducts.length ? 'block' : 'hidden'">
+            :class="!filteredProducts?.length ? 'block' : 'hidden'">
             {{ noItemsMessage }}
         </span>
 

@@ -76,7 +76,7 @@ async function handleLogout() {
       <div v-else class="header-actions">
         <RouterLink to="/settings" class="header-btn-avatar">
           <img
-            :src="avatarURL"
+            :src="avatarURL ? avatarURL : 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus'"
             alt="Avatar"
             class="header-avatar-img"
           />
