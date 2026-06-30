@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
 import { db } from "@/firebase";
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayUnion, arrayRemove, increment } from "firebase/firestore";
 
 export const useFavoritesStore = defineStore('favorites', () => {
     // State
@@ -47,7 +47,16 @@ export const useFavoritesStore = defineStore('favorites', () => {
         return favorites.value.includes(productId); 
     }
 
-    return {favorites, initFavorites, checkFav, addFavorite, removeFavorite}
+    async function incrementViewedCount() {
+        if (!currentUserUid.value) return
+
+        const docRef = doc(db, "users", currentUserUid.value)
+        await updateDoc(docRef, {
+            animesViewed: increment(1)
+        })
+    }
+
+    return {favorites, initFavorites, checkFav, addFavorite, removeFavorite, incrementViewedCount}
 
 });
 

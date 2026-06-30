@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useFavoritesStore } from '@/stores/favorites-store.js'
+import { useAuthStore } from '@/stores/auth-store.js'
 import getAnimeById from '../api/product-by-id.js';
 import ProductCard from '../components/ProductCard.vue';
 import getAnimeByGenre from '../api/product-by-genre.js';
@@ -13,6 +15,8 @@ const animeData = ref(null)
 const loading = ref(false)
 const error = ref(null)
 const router = useRouter()
+const favoritesStore = useFavoritesStore()
+const authStore = useAuthStore ()
 
 const animeId = ref(route.params?.id);
 
@@ -29,8 +33,13 @@ const fetchAnime = async (id) => {
   loading.value = true
   error.value = null
 
+
   try {
     animeData.value = await getAnimeById(id)
+
+    if (authStore.user?.uid) {
+    await favoritesStore.incrementViewedCount()
+    }
   } catch (err) {
     error.value = err.message
   } finally {
@@ -46,18 +55,18 @@ watch(() => route.params.id, (newId) => {
   if (newId) fetchAnime(newId)
 })
 
-onMounted(async () => {
-  loading.value = true
+// onMounted(async () => {
+//   loading.value = true
 
-  try {
-    const id = route.params.id
-    animeData.value = await getAnimeById(id)
-  } catch (err) {
-    error.value = err.message
-  } finally {
-    loading.value = false
-  }
-})
+//   try {
+//     const id = route.params.id
+//     animeData.value = await getAnimeById(id)
+//   } catch (err) {
+//     error.value = err.message
+//   } finally {
+//     loading.value = false
+//   }
+// })
 
 const recommendations = ref([])
 
@@ -83,6 +92,23 @@ const goToDetail = (animeId) => {
   
   router.push({ name: 'detail', params: { id: animeId } })
 }
+
+// const fetchAnime = async (id) => {
+//     loading.value = true
+//     error.value = null
+
+//     try {
+//         animeData.value = await getAnimeById(id)
+
+//         if (authStore.user?.uid) {
+//             await favorit esStore.incrementViewedCount()
+//         }
+//     } catch (err) {
+//         error.value = err.message
+//     } finally {
+//         loading.value = false
+//     }
+// }
 
 </script>
 
@@ -150,6 +176,7 @@ const goToDetail = (animeId) => {
           :imgUrl="item.images?.jpg?.large_image_url"
           :title="item.title"
           :score="item.score"
+          :scoredBy="item.scored_by"
           :category="item.type"
           :genres="item.genres?.map(g => g.name)"
           :episodes="item.episodes"
