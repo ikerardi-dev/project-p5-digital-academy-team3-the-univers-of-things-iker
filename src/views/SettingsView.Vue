@@ -1,34 +1,58 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth-store'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const authStore = useAuthStore()
 
 // --- Perfil / Avatar ---
-const fullname = ref(authStore.user?.fullName ?? '')
-const avatarUrl = ref(authStore.user?.avatar ?? '')
 const profileMessage = ref('')
 const profileError = ref('')
 const isSavingProfile = ref(false)
 
-function handleAvatarUpload(event) {
-  const file = event.target.files?.[0]
-  if (!file) return
+const { avatarURL, fullName } = storeToRefs(authStore);
 
-  // TODO: subir el archivo a Firebase Storage (o similar) y actualizar avatarUrl con la URL resultante
-  console.log('Archivo de avatar seleccionado:', file)
+const actualAvatarURL = computed(() => {
+  if (avatarURL.value) {
+    return avatarURL.value;
+  } else {
+    return 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus';
+  }
+})
+const { 
+  updateAvatar, 
+  updateFullName, 
+  changePassword,
+  deleteAccount
+} = authStore;
+const avatarError = ref(false);
+const newFullName = ref(fullName.value)
+
+async function handleAvatarUpload(event) {
+  const file = event.target.files?.[0]
+  if (!file) return;
+
+  const result = await updateAvatar(file)
+  if (!result) {
+    avatarError.value = true;
+  } else {
+    avatarError.value = false;
+  }
 }
 
-async function saveProfile() {
+async function saveFullName() {
   profileMessage.value = ''
   profileError.value = ''
   isSavingProfile.value = true
 
   try {
-    // TODO: aquí iría la llamada real, ej:
-    // await authStore.updateProfile({ fullName: fullname.value, avatar: avatarUrl.value })
+    const result = await updateFullName(newFullName.value)
+    
+    if (!result) {
+      throw new Error(`Full Name value is incorrect: ${newFullName.value}`)
+    }
     profileMessage.value = 'Perfil actualizado correctamente.'
   } catch (error) {
     console.log(error)
@@ -44,6 +68,7 @@ const newPassword = ref('')
 const confirmPassword = ref('')
 const showCurrentPassword = ref(false)
 const showNewPassword = ref(false)
+const showDeletingPassword = ref(false)
 const passwordMessage = ref('')
 const passwordError = ref('')
 const isSavingPassword = ref(false)
@@ -56,7 +81,11 @@ function toggleNewPasswordVisibility() {
   showNewPassword.value = !showNewPassword.value
 }
 
-async function changePassword() {
+function toggleDeletingPasswordVisibility() {
+  showDeletingPassword.value = !showDeletingPassword.value
+}
+
+async function changePasswordHandler() {
   passwordMessage.value = ''
   passwordError.value = ''
 
@@ -68,8 +97,8 @@ async function changePassword() {
   isSavingPassword.value = true
 
   try {
-    // TODO: aquí iría la llamada real, ej:
-    // await authStore.changePassword(currentPassword.value, newPassword.value)
+    await changePassword(currentPassword.value, newPassword.value);
+    
     passwordMessage.value = 'Contraseña actualizada correctamente.'
     currentPassword.value = ''
     newPassword.value = ''
@@ -85,6 +114,7 @@ async function changePassword() {
 // --- Eliminar cuenta ---
 const isDeleteModalOpen = ref(false)
 const deleteConfirmText = ref('')
+const deletePassword = ref('')
 const deleteError = ref('')
 const isDeletingAccount = ref(false)
 
@@ -104,12 +134,17 @@ async function confirmDeleteAccount() {
     return
   }
 
+  if (!deletePassword.value || deletePassword.value == "") {
+    deleteError.value = 'Enter your actual password'
+    return
+  }
+
   isDeletingAccount.value = true
   deleteError.value = ''
 
   try {
-    // TODO: aquí iría la llamada real, ej:
-    // await authStore.deleteAccount()
+    await deleteAccount(deletePassword.value)
+    
     await authStore.logout()
     router.push('/login')
   } catch (error) {
@@ -137,7 +172,7 @@ async function confirmDeleteAccount() {
 
         <div class="settings-avatar-row">
           <img
-            :src="avatarUrl || 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus'"
+            :src="actualAvatarURL"
             alt="Avatar"
             class="settings-avatar-img"
           />
@@ -152,13 +187,16 @@ async function confirmDeleteAccount() {
               />
             </label>
             <p class="settings-avatar-hint">PNG o JPG, máximo 2MB.</p>
+            <div class="avatar_error" :class="avatarError ? 'block' : 'hidden'">
+              Error with uploading the avatar. 
+            </div>
           </div>
         </div>
 
         <div class="settings-field">
           <label class="settings-label">Nombre completo</label>
           <input
-            v-model="fullname"
+            v-model="newFullName"
             type="text"
             placeholder="Naruto Udzumaki"
             class="settings-input"
@@ -172,9 +210,9 @@ async function confirmDeleteAccount() {
           type="button"
           class="settings-btn-primary"
           :disabled="isSavingProfile"
-          @click="saveProfile"
+          @click="saveFullName"
         >
-          {{ isSavingProfile ? 'Guardando...' : 'Guardar cambios' }}
+          {{ isSavingProfile ? 'Processing...' : 'Change Full Name' }}
         </button>
       </section>
 
@@ -242,7 +280,7 @@ async function confirmDeleteAccount() {
           type="button"
           class="settings-btn-primary"
           :disabled="isSavingPassword"
-          @click="changePassword"
+          @click="changePasswordHandler"
         >
           {{ isSavingPassword ? 'Actualizando...' : 'Actualizar contraseña' }}
         </button>
@@ -277,6 +315,26 @@ async function confirmDeleteAccount() {
           placeholder="ELIMINAR"
           class="settings-input"
         />
+
+        <p class="settings-modal-text">
+          Your actual password:
+        </p>
+        <div class="settings-input-wrap">
+          <input
+            v-model="deletePassword"
+            :type="showDeletingPassword ? 'text' : 'password'"
+            placeholder="••••••••"
+            class="settings-input settings-input-icon-pad"
+          />
+          <button
+            type="button"
+            class="settings-input-icon settings-toggle-password"
+            :aria-label="showDeletingPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            @click="toggleDeletingPasswordVisibility"
+          >
+            {{ showDeletingPassword ? '🙈' : '👁' }}
+          </button>
+        </div>
 
         <p v-if="deleteError" class="settings-error">{{ deleteError }}</p>
 
@@ -431,5 +489,9 @@ async function confirmDeleteAccount() {
 
 .settings-modal-actions {
   @apply flex items-center justify-end gap-2 mt-1;
+}
+
+.avatar_error {
+  @apply text-sm text-text-error;
 }
 </style>
