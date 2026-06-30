@@ -11,28 +11,11 @@ import { useProductsStore } from './stores/products-store.js'
 
 const { isLoading } = storeToRefs(useAuthStore())
 
-<<<<<<< HEAD
 const { call, callMore } = useProductsStore()
 
 onMounted(async () => {
   await call()
   callMore(500)
-=======
-const productsStore = useProductsStore()
-const {api_error} = storeToRefs(productsStore);
-const { call, callMore } = productsStore;
-
-onMounted(async () => {
-  try {
-    await call()
-    callMore(500)
-  } catch (error) {
-    console.log(`Error in App.vue onMounted(): ${error}`);
-    api_error.value = error;
-  }
-  
-  
->>>>>>> 91db95a74e73c6084544f061efb4ee61aa2a1239
 })
 </script>
 
@@ -54,5 +37,4 @@ onMounted(async () => {
   </template>
 </template>
 
-<style>
-</style>
+<style></style>

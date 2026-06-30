@@ -5,12 +5,8 @@ import sleep from '../services/utils/sleep'
 
 export const useProductsStore = defineStore('products', () => {
   // State = data
-<<<<<<< HEAD
   const products = ref([])
-=======
-  const products = ref([]);
   const api_error = ref(null)
->>>>>>> 91db95a74e73c6084544f061efb4ee61aa2a1239
 
   // Getters
 
