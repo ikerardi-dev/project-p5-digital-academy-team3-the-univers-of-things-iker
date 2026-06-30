@@ -1,13 +1,31 @@
 <script setup>
+import { computed } from 'vue'
 import { useAuthStore } from '../stores/auth-store.js'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+
 const auth = useAuthStore()
+const {userType, avatarURL} = storeToRefs(auth)
 const router = useRouter()
+
+
+
+const dashboardLink = computed( () => {
+  if (userType.value == "customer") {
+    return "/user-dashboard"
+  } else if (userType.value == "admin") {
+    return "/admin-dashboard"
+  } else {
+    return "/login"
+  }
+});
 
 async function handleLogout() {
   await auth.logout()
   router.go(0) // Recarga la página para reflejar el estado de autenticación
 }
+
+
 </script>
 
 <template>
@@ -21,7 +39,7 @@ async function handleLogout() {
 
       <!-- Navegación -->
       <nav class="header-nav">
-        <RouterLink v-if="auth.isLoggedIn" to="/dashboard" class="header-btn-nav"
+        <RouterLink v-if="auth.isLoggedIn" :to="dashboardLink" class="header-btn-nav"
           >Dashboard</RouterLink
         >
         <span v-if="auth.isLoggedIn" class="header-nav-divider"></span>
@@ -58,7 +76,7 @@ async function handleLogout() {
       <div v-else class="header-actions">
         <RouterLink to="/settings" class="header-btn-avatar">
           <img
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=nexus"
+            :src="avatarURL ? avatarURL : 'https://api.dicebear.com/7.x/avataaars/svg?seed=nexus'"
             alt="Avatar"
             class="header-avatar-img"
           />
