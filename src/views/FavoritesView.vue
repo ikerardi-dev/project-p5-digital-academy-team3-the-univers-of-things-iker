@@ -73,13 +73,13 @@ const removeFromFavorites = async (animeId) => {
 <template>
     <section>
         <div class="profile-container">
-            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=nexus" alt="Profile_Image" class="profile-icon">
+            <img
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=nexus"
+            alt="Profile_Image" class="profile-icon">
             <p class="profile-name">{{ authStore.user?.fullName }}</p>
         </div>
         <div class="sub-profile-container">
-            <p class="sub-profile-status">
-
-            </p>
+            <p class="sub-profile-status">Member since: {{ authStore.user?.registerDate }}</p>
         </div>
         <div class="profile-stats">
             <div class="stats-container">
@@ -124,7 +124,7 @@ const removeFromFavorites = async (animeId) => {
                 <img :src="anime.images?.jpg?.image_url" :alt="anime.title" class="row-image" />
 
                 <div class="row-content">
-                    <h3>{{ anime.title }}</h3>
+                    <h3>{{ anime.title_english ? anime.title_english : anime.title }}</h3>
                     <div class="row-genres">
                         <span v-for="genre in anime.genres" :key="genre.mal_id" class="row-genre">
                             {{ genre.name }}
@@ -167,6 +167,17 @@ const removeFromFavorites = async (animeId) => {
 .profile-container p {
     font-family: 'Sora';
     @apply font-bold text-[32px]
+}
+
+.sub-profile-container {
+    @apply
+        ml-[140px] mt-5
+}
+
+.sub-profile-container p {
+    font-family: 'Sora';
+    @apply
+        text-text-muted text-sm
 }
 
 .profile-stats {
