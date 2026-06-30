@@ -74,12 +74,15 @@ const removeFromFavorites = async (animeId) => {
     <section>
         <div class="profile-container">
             <img
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=nexus"
+            :src="authStore.avatarURL"
             alt="Profile_Image" class="profile-icon">
             <p class="profile-name">{{ authStore.user?.fullName }}</p>
         </div>
         <div class="sub-profile-container">
-            <p class="sub-profile-status">Member since: {{ authStore.user?.registerDate }}</p>
+            <span v-if="authStore.userType == 'admin'" class="admin-badge">Admin</span>
+            <span v-else class="user-badge">User</span>
+            <span class="sub-profile-container-separator">·</span>
+            <p class="sub-profile-status">Member since {{ authStore.user?.registerDate.getFullYear() }}</p>
         </div>
         <div class="profile-stats">
             <div class="stats-container">
@@ -171,13 +174,36 @@ const removeFromFavorites = async (animeId) => {
 
 .sub-profile-container {
     @apply
-        ml-[140px] mt-5
+        flex items-center gap-8
+        ml-[195px] mt-5
 }
 
 .sub-profile-container p {
     font-family: 'Sora';
     @apply
         text-text-muted text-sm
+        ;
+}
+
+.sub-profile-container-separator {
+    @apply
+        text-text-muted
+}
+
+.admin-badge {
+    @apply
+        ml-2 px-2 py-1
+        text-xs rounded-full
+        bg-bg-brand-darker text-text-brand border border-border-brand
+        ;
+}
+
+.user-badge {
+    @apply
+        ml-2 px-2 py-1
+        text-xs rounded-full
+        bg-bg-input text-text-muted border border-border-default
+        ;
 }
 
 .profile-stats {

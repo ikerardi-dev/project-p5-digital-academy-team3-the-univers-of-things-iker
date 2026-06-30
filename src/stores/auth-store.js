@@ -118,7 +118,7 @@ export const useAuthStore = defineStore('auth', () => {
         user.value = {
           ...firebaseUser,
           ...userData,
-          // registerDate: userData.registerDate?.toDate()
+          registerDate: userData.registerDate?.toDate()
         }
       } else {
         user.value = null;
