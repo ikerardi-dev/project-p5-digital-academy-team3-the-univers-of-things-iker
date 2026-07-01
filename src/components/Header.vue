@@ -218,7 +218,7 @@ async function handleLogout() {
 }
 
 .header-username {
-  @apply text-sm text-text-default font-medium max-w-[90px] sm:max-w-[140px] truncate;
+  @apply hidden md:block text-sm text-text-default font-medium max-w-[140px] truncate;
 }
 
 .header-btn-avatar {
