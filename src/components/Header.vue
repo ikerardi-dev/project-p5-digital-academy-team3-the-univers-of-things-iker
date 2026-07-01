@@ -113,7 +113,7 @@ async function handleLogout() {
 
       <!-- Sin registrar -->
       <div v-if="!auth.isLoggedIn" class="header-actions">
-        <RouterLink to="/Login" class="header-btn-login">Login</RouterLink>
+        <RouterLink to="/login" class="header-btn-login">Login</RouterLink>
         <RouterLink to="/register" class="header-btn-register">Register</RouterLink>
       </div>
 
