@@ -27,13 +27,15 @@ onMounted(async () => {
 })
 
 const videoURL = computed(() => {
-  console.log(anime.value?.trailer?.embed_url);
+  const rawURL = anime.value?.trailer?.embed_url
+  if (!rawURL) return null;
   
+  const videoSettings = '&mute=1&loop=1&controls=0&showinfo=0&rel&cc_load_policy=0&modestbranding=1&iv_load_policy=3'
 
-  return anime.value?.trailer?.embed_url + `&mute=1&loop=1&controls=0&showinfo=0&rel&cc_load_policy=0&modestbranding=1&iv_load_policy=3`  
+  return rawURL + videoSettings
 })
 
-const featuredStyle = computed(() => {
+const bgImage = computed(() => {
     if (videoURL.value) return {}
     
     const url = anime.value?.images?.jpg?.large_image_url 
@@ -50,14 +52,14 @@ const featuredStyle = computed(() => {
     <p v-if="loading" class="featured-loading">Cargando...</p>
     <p v-else-if="error" class="featured-error">{{ error }}</p>
 
-    <div v-else-if="anime" class="featured-card" :style="featuredStyle">
+    <div 
+      v-else-if="anime" 
+      class="featured-card" 
+      :style="bgImage"
+    >
 
-      <!-- <iframe v-if="videoURL" class="featured-video" :src="videoURL" width="420" height="315"></iframe> -->
+      <iframe v-if="videoURL" class="featured-video" :src="videoURL" width="420" height="315"></iframe>
 
-
-      <!-- <div v-else class="featured-image-bg" :style="{
-        backgroundImage: url(imageURL),
-      }"></div> -->
       <div class="featured-overlay"></div>
 
       <div class="featured-info">
