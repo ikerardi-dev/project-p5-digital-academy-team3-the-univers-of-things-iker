@@ -39,10 +39,10 @@ async function handleLogout() {
   <header class="header">
     <div class="header-inner">
       <!-- Logo -->
-      <a href="/" class="header-logo">
+      <RouterLink to="/" class="header-logo">
         <span class="header-logo-title">Nexus Anime</span>
         <span class="header-logo-sub">Anime</span>
-      </a>
+      </RouterLink>
 
       <!-- Navegación escritorio -->
       <nav class="header-nav">
