@@ -37,12 +37,12 @@ const router = createRouter({
       component: () => import('../views/AdminDashboardView.vue'),
       meta: { requiresAuth: true, requiresAdmin: true },
     },
-    {
-      path: '/settings',
-      name: 'settings',
-      component: () => import('@/views/SettingsView.vue'),
-      meta: { requiresAuth: true },
-    },
+    // {
+    //   path: '/settings',
+    //   name: 'settings',
+    //   component: () => import('@/views/SettingsView.vue'),
+    //   meta: { requiresAuth: true },
+    // },
     {
       path: '/favorites',
       name: 'favorites',
