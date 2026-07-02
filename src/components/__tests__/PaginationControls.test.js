@@ -5,13 +5,17 @@ import PaginationControls from '@/components/PaginationControls.vue'
 describe('PaginationControls', () => {
 
     function createWrapper(modelValue = 0, totalPages = 5) {
-        return mount(PaginationControls, {
+        let wrapper;
+
+        wrapper = mount(PaginationControls, {
             props: {
                 modelValue,
                 totalPages,
                 "onUpdate:modelValue": (val) => wrapper.setProps({ modelValue: val })
             }
         })
+
+        return wrapper;
     }
 
     it("Should have a total pages number in props", () => {
