@@ -289,7 +289,7 @@ async function confirmDeleteAccount() {
       <!-- Eliminar cuenta -->
       <section class="settings-card settings-card-danger">
         <div class="settings-card-header">
-          <h2 class="settings-card-title settings-card-title-danger">Eliminar cuenta</h2>
+          <h2 class="settings-card-title settings-card-title-danger">Delete Account</h2>
           <p class="settings-card-description">
             This action is permanent. Your profile, favorites, and associated data will be deleted.
           </p>

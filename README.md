@@ -501,6 +501,19 @@ npm run test:e2e -- --debug
         box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     "
 />
+
+### Vitest Coverage
+
+<img 
+    width="1300" height="850" 
+    alt="Nexus Anime - Homepage" 
+    src="./docs/testing/coverage.png" 
+    style="
+        border: 1px solid #ccc; 
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    "
+/>
 <br><br>
 
 ## Autors
