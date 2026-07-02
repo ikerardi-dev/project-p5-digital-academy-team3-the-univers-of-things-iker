@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth-store'
 
@@ -45,6 +45,7 @@ async function submitHandler() {
           placeholder="anime@nexus.com"
           class="login-input"
           :class="{ 'login-input-error': errorMessage }"
+          @keyup.enter="submitHandler"
         />
         <span class="login-input-icon">✉</span>
       </div>
@@ -62,10 +63,12 @@ async function submitHandler() {
           placeholder="••••••••"
           class="login-input"
           :class="{ 'login-input-error': errorMessage }"
+          @keyup.enter="submitHandler"
         />
         <button
           type="button"
           @click="togglePasswordVisibility"
+          @keydown.enter="submitHandler"
           class="login-input-icon login-toggle-password"
           :aria-label="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
         >
@@ -77,7 +80,7 @@ async function submitHandler() {
     <p v-if="errorMessage" class="login-error">{{ errorMessage }}</p>
 
     <button 
-      @click="submitHandler" 
+      @click="submitHandler"
       id="loginSubmit"
       type="button" 
       class="login-submit" 
