@@ -198,7 +198,7 @@ async function confirmDeleteAccount() {
           <input
             v-model="newFullName"
             type="text"
-            placeholder="Naruto Udzumaki"
+            placeholder="Naruto Uzumaki"
             class="settings-input"
           />
         </div>

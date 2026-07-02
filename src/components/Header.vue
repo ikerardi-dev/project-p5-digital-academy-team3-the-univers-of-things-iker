@@ -182,7 +182,7 @@ async function handleLogout() {
 
 .header-logo-title {
   @apply text-[1.05rem] font-extrabold tracking-tight text-text-brand;
-  text-shadow: 0 0 18px rgba(0, 240, 255, 0.5);
+  text-shadow: 0 0 18px rgba(0, 240, 255, 0.502);
 }
 
 .header-logo-sub {
