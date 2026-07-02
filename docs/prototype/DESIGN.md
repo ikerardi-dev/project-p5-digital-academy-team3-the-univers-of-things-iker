@@ -111,31 +111,36 @@ spacing:
 ---
 
 ## Brand & Style
+
 The design system is engineered for a high-energy collectibles marketplace focusing on Anime, Gaming, and Hero culture. The brand personality is **dynamic, premium, and immersive**, bridging the gap between a high-end auction house and a vibrant community hub.
 
 The aesthetic follows a **Modern/Glassmorphic** approach. It utilizes deep layering to create a sense of "unboxing" and discovery. The UI should evoke an emotional response of excitement and exclusivity, using high-performance visuals and slick transitions to mirror the premium nature of rare collectibles.
 
 ## Colors
-The palette is centered around **Electric Blue** (#00F0FF) as the primary action color, providing a futuristic, high-tech glow against a "Deep Space" neutral background (#0F1115). 
 
-**Energetic Orange** (#FF5C00) is reserved for "Hot" items, limited editions, and urgent call-to-actions, creating a high-contrast tension with the primary blue. 
+The palette is centered around **Electric Blue** (#00F0FF) as the primary action color, providing a futuristic, high-tech glow against a "Deep Space" neutral background (#0F1115).
+
+**Energetic Orange** (#FF5C00) is reserved for "Hot" items, limited editions, and urgent call-to-actions, creating a high-contrast tension with the primary blue.
 
 For the dark mode, surfaces use a tiered grayscale (Rich Black to Gunmetal) to maintain depth. In light mode, these are replaced with crisp whites and soft cool-grays, keeping the vibrant accents identical to maintain brand recognition.
 
 ## Typography
+
 This design system employs **Sora** for headings to provide a geometric, tech-forward feel that resonates with gaming and sci-fi aesthetics. Its wide apertures ensure readability even at heavy weights.
 
-**Hanken Grotesk** serves as the primary interface typeface, chosen for its sharp, contemporary professional look that handles dense data (like price lists and specs) with ease. 
+**Hanken Grotesk** serves as the primary interface typeface, chosen for its sharp, contemporary professional look that handles dense data (like price lists and specs) with ease.
 
 **JetBrains Mono** is used sparingly for technical metadata, serial numbers, and "Power Levels" to reinforce the "collector's database" feel.
 
 ## Layout & Spacing
+
 The system uses a **12-column fluid grid** for desktop and a **4-column grid** for mobile. A strict 4px baseline grid ensures vertical rhythm.
 
 Layouts are card-centric. On desktop, the "Collection Grid" utilizes a masonry-style or strictly aligned 4-column layout that reflows to 2 columns on tablet and 1 column on mobile. Spacing between cards (gutters) is kept wide (24px) to allow the high-quality photography of the collectibles to breathe. Container widths are capped at 1440px to prevent excessive line lengths in the marketplace descriptions.
 
 ## Elevation & Depth
-Depth is communicated through **Tonal Layering** and **Glassmorphism**. 
+
+Depth is communicated through **Tonal Layering** and **Glassmorphism**.
 
 1.  **Base Layer:** The darkest neutral color, representing the background.
 2.  **Surface Layer:** A slightly lighter neutral (#1A1D23) used for the main card bodies.
@@ -144,14 +149,16 @@ Depth is communicated through **Tonal Layering** and **Glassmorphism**.
 Shadows are "Ambient Glows" rather than traditional black shadows. For example, a card on hover might cast a subtle `0px 10px 30px` shadow tinted with the primary Electric Blue at 15% opacity, making the item appear as if it's sitting on a light table.
 
 ## Shapes
-The design system adopts a **generous roundedness** to soften the technical edge. The `rounded-2xl` (1.5rem / 24px) is the standard for product cards and main containers, creating a friendly, "collectible toy box" feel. 
+
+The design system adopts a **generous roundedness** to soften the technical edge. The `rounded-2xl` (1.5rem / 24px) is the standard for product cards and main containers, creating a friendly, "collectible toy box" feel.
 
 Smaller elements like buttons and input fields use the `rounded-lg` (1rem / 16px) standard. Actionable icons and avatar frames are strictly circular to contrast against the rectangular grid.
 
 ## Components
--   **Feature Cards:** The core of the SPA. They feature a 1:1 aspect ratio image area, a subtle inner glow border, and a bottom-aligned "Holographic" tag for rarity.
--   **Filter Chips:** Pill-shaped with a 1px stroke. When active, they fill with a gradient of Primary to Tertiary and use white text.
--   **Pagination:** Minimalist arrows with a "page x of y" counter in JetBrains Mono. Hover states on arrows trigger a scale(1.1) transform.
--   **Authenticated Header:** A fixed glassmorphic bar. The user's "Collection Value" and "Wallet" are displayed in a glowing status box next to the circular profile avatar.
--   **Input Fields:** Deep-set (inset shadow) with a 2px Electric Blue border appearing only on focus.
--   **Interactive States:** All buttons should use a subtle "shimmer" CSS animation on hover to mimic the foil effect found on rare trading cards.
+
+- **Feature Cards:** The core of the SPA. They feature a 1:1 aspect ratio image area, a subtle inner glow border, and a bottom-aligned "Holographic" tag for rarity.
+- **Filter Chips:** Pill-shaped with a 1px stroke. When active, they fill with a gradient of Primary to Tertiary and use white text.
+- **Pagination:** Minimalist arrows with a "page x of y" counter in JetBrains Mono. Hover states on arrows trigger a scale(1.1) transform.
+- **Authenticated Header:** A fixed glassmorphic bar. The user's "Collection Value" and "Wallet" are displayed in a glowing status box next to the circular profile avatar.
+- **Input Fields:** Deep-set (inset shadow) with a 2px Electric Blue border appearing only on focus.
+- **Interactive States:** All buttons should use a subtle "shimmer" CSS animation on hover to mimic the foil effect found on rare trading cards.

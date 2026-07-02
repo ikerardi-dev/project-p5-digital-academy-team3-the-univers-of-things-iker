@@ -1,0 +1,6 @@
+body {
+    @apply 
+        bg-bg-body 
+        cursor-default
+    ;
+}

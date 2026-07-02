@@ -1,25 +1,40 @@
-
 <script setup>
-  import HomeView from './views/HomeView.vue';
-  import Header from './components/Header.vue';
-  import Footer from './components/Footer.vue';
+import { RouterView } from 'vue-router'
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+import Cookiesnogalletas from './components/Cookiesnogalletas.vue'
 
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from './stores/auth-store.js'
+import { onMounted } from 'vue'
+import { useProductsStore } from './stores/products-store.js'
+
+const { isLoading } = storeToRefs(useAuthStore())
+
+const { call, callMore } = useProductsStore()
+
+onMounted(async () => {
+  await call()
+  callMore(500)
+})
 </script>
 
 <template>
-  <Header />
+  <template v-if="isLoading">
+    <div class="min-h-screen flex flex-col justify-center items-center">
+      <h1 class="text-center">Loading...</h1>
+    </div>
+  </template>
 
-  <h1>App</h1>
+  <template v-else>
+    <Header />
 
-  <HomeView />
+    <RouterView />
 
-  <Footer />
+    <Footer />
+
+    <Cookiesnogalletas />
+  </template>
 </template>
 
-<style scoped>
-/* Para usar Tailwind con @apply aqui. Cambia la dirección en otras carpetas! */
-@reference "./assets/main.css";
-
-
-
-</style>
+<style></style>
